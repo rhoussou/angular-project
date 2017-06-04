@@ -5,19 +5,12 @@ import { HttpModule } from '@angular/http';
 
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
-import {Ng2PaginationModule} from 'ng2-pagination';
-import { Ng2BootstrapModule } from 'ng2-bootstrap';
-import { PaginationModule } from 'ng2-bootstrap';
-import { DatepickerModule } from 'ng2-bootstrap';
-import { ModalModule } from 'ng2-bootstrap';
-import { ProgressbarModule } from 'ng2-bootstrap';
-import { SlimLoadingBarService, SlimLoadingBarComponent } from 'ng2-slim-loading-bar';
-import { TimepickerModule } from 'ng2-bootstrap';
+import { PaginationModule } from 'ngx-bootstrap';
+import { DatepickerModule } from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap';
 
 import { routing } from './app.routes';
-
 import { DataService } from './shared/services/data.service';
 import { NotificationService } from './shared/utils/notification.service';
 import { ItemsService } from './shared/utils/items.service';
@@ -25,25 +18,18 @@ import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 
 import { AppComponent }  from './app.component';
 import { CustomerListComponent } from './customers/customer-list.component';
-import { ProductCardComponent } from './products/product-card.component';
-import { ProductListComponent } from './products/product-list.component';
-import { UserCardComponent } from './users/user-card.component';
-import { UserListComponent } from './users/user-list.component';
-import {UserEditComponent } from './users/user-edit.component';
-
-
-
+import { CustomerCardComponent } from './customers/customer-card.component';
+import { CustomerCreateComponent } from './customers/customer-create.component';
+import { CustomerEditComponent } from './customers/customer-edit.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomerListComponent,
-    ProductCardComponent,
-    ProductListComponent,
-    UserCardComponent,
-    UserListComponent,
-    UserEditComponent,
+    CustomerEditComponent,
+    CustomerCreateComponent,
+    CustomerCardComponent,
     DateFormatPipe
   ],
 
@@ -52,19 +38,11 @@ import {UserEditComponent } from './users/user-edit.component';
     HttpModule,
     routing,
     BrowserAnimationsModule,
-
-    Ng2BootstrapModule,
     ModalModule.forRoot(),
-    ProgressbarModule.forRoot(),
     PaginationModule.forRoot(),
-    routing,
-    TimepickerModule.forRoot(),
     DatepickerModule.forRoot(),
     ReactiveFormsModule,
-    Ng2PaginationModule,
-    MultiselectDropdownModule
-
-
+    MultiselectDropdownModule,
   ],
   providers: [
     DataService,

@@ -1,17 +1,16 @@
 import { Component, OnInit, ViewChild, AfterViewInit,Input, Output,EventEmitter} from '@angular/core';
 import { trigger,state,style,animate, transition } from '@angular/animations';
 
-import { IUser, ISchedule } from '../shared/interfaces';
+import { ICustomer, ISchedule } from '../shared/interfaces';
 import { DataService } from '../shared/services/data.service';
 import { ItemsService } from '../shared/utils/items.service';
 import { NotificationService } from '../shared/utils/notification.service';
 
-import { ModalDirective } from 'ng2-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
-    moduleId: module.id,
-    selector: 'user-card',
-    templateUrl: 'user-card.component.html',
+    selector: 'customer-card',
+    templateUrl: 'customer-card.component.html',
     animations: [
         trigger('flyInOut', [
             state('in', style({ opacity: 1, transform: 'translateX(0)' })),
@@ -31,23 +30,21 @@ import { ModalDirective } from 'ng2-bootstrap';
         ])
     ]
 })
-export class UserCardComponent implements OnInit {
+export class CustomerCardComponent implements OnInit {
     @ViewChild('childModal') public childModal: ModalDirective;
-    @Input() user: IUser;
-    @Output() removeUser = new EventEmitter();
-    @Output() userCreated = new EventEmitter();
+    @Input() customer: ICustomer;
+    @Output() removeCustomer = new EventEmitter();
+    @Output() customerCreated = new EventEmitter();
 
-    edittedUser: IUser;
+    edittedCustomer: ICustomer;
     onEdit: boolean = false;
-    apiHost: string;
-    // Modal properties
-    @ViewChild('modal')
+    
     modal: any;
     items: string[] = ['item1', 'item2', 'item3'];
     selected: string;
     output: string;
-    userSchedules: ISchedule[];
-    userSchedulesLoaded: boolean = false;
+    customerSchedules: ISchedule[];
+    customerSchedulesLoaded: boolean = false;
     index: number = 0;
     backdropOptions = [true, false, 'static'];
     animation: boolean = true;
@@ -60,34 +57,30 @@ export class UserCardComponent implements OnInit {
 
     ngOnInit() {
         
-        this.edittedUser = this.itemsService.getSerialized<IUser>(this.user);
-        if (this.user.id < 0)
-            this.editUser();
+        this.edittedCustomer = this.itemsService.getSerialized<ICustomer>(this.customer);
+        if (this.customer.id == null)
+            this.editCustomer();
     }
 
-    editUser() {
+    editCustomer() {
         this.onEdit = !this.onEdit;
-        this.edittedUser = this.itemsService.getSerialized<IUser>(this.user);
+        this.edittedCustomer = this.itemsService.getSerialized<ICustomer>(this.customer);
     }
 
-    createUser() {
+    createCustomer() {
         
     }
 
-    updateUser() {
+    updateCustomer() {
         
     }
 
     openRemoveModal() {
-        this.notificationService.openConfirmationDialog('Are you sure you want to remove '
-            + this.user.name + '?',
-            () => {
-               
-            });
+        
     }
 
-    viewSchedules(user: IUser) {
-        console.log(user);
+    viewSchedules(customer: ICustomer) {
+        console.log(customer);
         
         
     }
@@ -101,9 +94,8 @@ export class UserCardComponent implements OnInit {
         this.output = '(opened)';
     }
 
-    isUserValid(): boolean {
-        return !(this.edittedUser.name.trim() === "")
-            && !(this.edittedUser.profession.trim() === "");
+    isCustomerValid(): boolean {
+        return false;
     }
 
 }
