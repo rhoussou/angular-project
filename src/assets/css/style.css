@@ -7,6 +7,13 @@ body {
     margin-top: 50px;
 }
 
+.modal-dialog {
+   width: 80%;
+}
+.panel-heading {
+     background: #FFA500;
+
+}
 .title{
     font-size: 20px;
 
@@ -15,13 +22,13 @@ body {
 .profile-pane .header {
     background: #8e44ad;
     color: #fff;
-    padding: 5px 15px;
+    padding: 0px 5px;
     border-radius: 10px 10px 0 0;
 }
 
 
 .hero-feature {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 footer {
@@ -29,8 +36,8 @@ footer {
 }
 
 .img-avatar {
-    height: 150px;
-    width: 150px;
+    height: 80px;
+    width: 80px;
 }
 
 .img-small {

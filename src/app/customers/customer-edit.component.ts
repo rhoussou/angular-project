@@ -1,117 +1,97 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit,Input, Output,EventEmitter} from '@angular/core';
+import { trigger,state,style,animate, transition } from '@angular/animations';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup ,FormBuilder,Validators  } from '@angular/forms';
-import { trigger,state,style,animate, transition } from '@angular/animations';
-
-import { DataService } from '../shared/services/data.service';
-import { ItemsService } from '../shared/utils/items.service';
-import { NotificationService } from '../shared/utils/notification.service';
 import { ICustomer } from '../shared/interfaces';
-import { DateFormatPipe } from '../shared/pipes/date-format.pipe';
+import { NotificationService } from '../shared/utils/notification.service';
+
+import { CustomerService } from '../shared/services/customer.service';
+import { FileUploadService } from '../shared/services/fileUpload.service';
 
 @Component({
     selector: 'customer-edit-form',
-    templateUrl: 'customer-edit.component.html',
-    styleUrls: ['./customer.component.css']
+    templateUrl: 'customer-edit.component.html', 
 })
+
 export class CustomerEditComponent implements OnInit {
-    apiHost: string;
-    id: number;
-    scheduleLoaded: boolean = false;
-    statuses: string[];
-    types: string[];
-    private sub: any;
-
-    formGroupCustomerEdit:FormGroup;
-
-    postData:string;
-
+   
+    customerEditForm:FormGroup;
+    imageSrc: string = '';
+    file:File;
+    editedCustomerId : string;
     constructor(private fb:FormBuilder,
                 private route: ActivatedRoute,
                 private router: Router,
-                private dataService: DataService,
-                private itemsService: ItemsService,
+                private customerService: CustomerService,
                 private notificationService: NotificationService){
 
-       this.formGroupCustomerEdit = this.fb.group({
 
-            name: ['',Validators.required],
-            customername:['',Validators.required],
-            email:['',Validators.required],
+            this.customerEditForm = this.fb.group({
+            gender: ['',Validators.required],
+            lastname: ['',Validators.required],
+            firstname: ['',Validators.required],
+            username: 'not used',
+            birthdate: ['2017-05-31T19:37:55.507Z',Validators.required],
+            email : '',
+            phone : '',
             adress: this.fb.group({
-                street : '',
                 suite : '',
+                state:'',
                 city   : '',
-                zipcode: '',
-                geo: this.fb.group({
-                    lat: '',
-                    lng: ''
-                }),
+                zip: ''
             }),
-            phone: '',
-            website : '',
-            company: this.fb.group({
-                 name: '',
-                 catchPhrase: '',
-                 bs: ''
-
-            })
-     
+            password: 'not used',
+            enabled: 'true',
+            lastPasswordResetDate: '2017-05-31T19:37:55.507Z',
+            authorities: [{name: 'ROLE_USER'}],
+            company : '',
+            profession : ''
        });
-
     }
 
-    ngOnInit(){
+    ngOnInit() {}
+
+    OnEdit(customer:any) {
+        this.customerEditForm.patchValue(customer.value);
+        this.editedCustomerId = customer.value.id;
+     }
 
 
+    onCustomerUpdateSubmit() {
+        this.updateCustomer();
+        this.back();  
     }
 
-    onCustomerCreateSubmit(){
-        this.createCustomer();
-        this.back();
+    updateCustomer() {
+        this.customerService.updateCustomer(this.file, this.editedCustomerId, this.customerEditForm.value)
+             .subscribe(data =>  this.notificationService.printSuccessMessage('le  client a été modifié avec succes'),
+                 error => this.notificationService.printErrorMessage('Failed to created Customer'+ error)
+              )
+    }
+
+    onChange(event) {
         
+        var files = event.srcElement.files;
+        this.file = event.dataTransfer ? event.dataTransfer.files[0] : event.target.files[0];
+        var pattern = /image-*/;
+        var reader = new FileReader();
+        if (!this.file.type.match(pattern)) {
+            alert('invalid format');
+            return;
+        }
+        reader.onload = this._handleReaderLoaded.bind(this);
+        reader.readAsDataURL(this.file);
+       
     }
 
-    createCustomer() {
-
-        this.dataService.createPosition(this.formGroupCustomerEdit.value)
-            .subscribe((customerCreated) => {
-                    this.postData= JSON.stringify(customerCreated);
-                    console.log(this.postData);
-                },
-                error => {
-
-                    this.notificationService.printErrorMessage('Failed to created Customer'+ error);
-                });
-
+    _handleReaderLoaded(e) {
+        var reader = e.target;
+        this.imageSrc = reader.result;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     back() {
         this.router.navigate(['customers']);
     }
+
 
 }

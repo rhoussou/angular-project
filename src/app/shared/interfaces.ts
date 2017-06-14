@@ -1,15 +1,45 @@
-﻿export interface IUser {
+﻿export class Customer {
+
+    id: string ;
+    gender: string;
+	username: string ;
+    firstname: string;
+    lastname: string;
+    company: string;
+    birthdate: Date;
+	avatar: string;
+    phone: string;
+    email: string;
+	profession: string;
+    adress: IAdress;
+    enabled: Boolean;
+    lastPasswordResetDate: Date;
+    password: string ;
+    authorities: IAuthority[];
+}
+
+export class Authority {
+   name : string;
+}
+
+export class Adress {
+    city: string;
+    suite: string;
+    zip: string;
+    state: string
+}
+
+
+export interface IUser {
     id: number;
-    name: string;
     username: string;
     email: string;
-    birthdate :string
     avatar: string;
     profession: string;
-    adress: IAdress;
-    registerdate: string;
-    phone: string;
-    website: string;
+    enabled: Boolean;
+    lastPasswordResetDate: Date;
+    password: string ;
+    authorities: IAuthority[];   
 }
 
 export interface ICustomer {
@@ -21,7 +51,8 @@ export interface ICustomer {
     company: string;
     birthdate: Date;
 	avatar: string;
-    contact : IContact;
+    phone: string;
+    email: string;
 	profession: string;
     adress: IAdress;
     enabled: Boolean;
@@ -30,23 +61,38 @@ export interface ICustomer {
     authorities: IAuthority[];
 }
 
+
 export interface IAuthority {
-    phone: string;
-    email: string;
-    website: string;
+   name : string;
 }
 
-export interface IContact {
+export interface IProduct {
+    id: number;
     name: string;
+    avatar: string;
+    category: ICategory[];
+    reference: string;
+    price: number;
+    expiredate: Date;
+    variant:IVariant[];
+}
+
+export interface ICategory {
+   id: number;
+   name :string;
+}
+
+export interface IVariant {
+    name: string;
+    avatar: string;
 }
 
 
 export interface IAdress {
     city: string;
     suite: string;
-    street : string;
-    zipcode: string;
-    country: string
+    zip: string;
+    state: string
 }
 
 export interface IGeographical {
@@ -55,23 +101,6 @@ export interface IGeographical {
 }
 
 
-
-
-export interface IProduct {
-    id: number;
-    name: string;
-    avatar: string;
-    stock: number;
-    category: ICategory[];
-    reference: string;
-    price: number;
-    expiredate: Date;
-}
-
-export interface ICategory {
-   id: number;
-   name :string;
-}
 
 export interface IStockMouvement {
     period: Date;

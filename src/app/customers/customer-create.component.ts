@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit,Input, Output,EventEmitter} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup ,FormBuilder,Validators  } from '@angular/forms';
 import { trigger,state,style,animate, transition } from '@angular/animations';
+import { Http, Response, Headers , RequestOptions, URLSearchParams,RequestOptionsArgs} from '@angular/http';
+import { Observable } from 'rxjs/Rx';
 
-import { DataService } from '../shared/services/data.service';
-import { ItemsService } from '../shared/utils/items.service';
+import { CustomerService } from '../shared/services/customer.service';
 import { NotificationService } from '../shared/utils/notification.service';
-import { ICustomer } from '../shared/interfaces';
+import { ICustomer} from '../shared/interfaces';
 import { DateFormatPipe } from '../shared/pipes/date-format.pipe';
 
 @Component({
-    selector: 'customer-create-form',
+    selector: 'customer-create',
     templateUrl: 'customer-create.component.html',
-    styleUrls: ['./customer.component.css'],
+
      animations: [
         trigger('flyInOut', [
             state('in', style({ opacity: 1, transform: 'translateX(0)' })),
@@ -35,94 +36,74 @@ import { DateFormatPipe } from '../shared/pipes/date-format.pipe';
 })
 export class CustomerCreateComponent implements OnInit {
     
-
-    formGroupCustomerCreate:FormGroup;
-
-    postData:string;
-
+    customerCreate:FormGroup;
+    imageSrc: string = '';
+    file:File;
     constructor(private fb:FormBuilder,
                 private route: ActivatedRoute,
                 private router: Router,
-                private dataService: DataService,
-                private itemsService: ItemsService,
+                private customerService: CustomerService,
                 private notificationService: NotificationService){
 
-       this.formGroupCustomerCreate = this.fb.group({
+       this.customerCreate = this.fb.group({
 
             gender: ['',Validators.required],
             lastname: ['',Validators.required],
             firstname: ['',Validators.required],
-            username: ['',Validators.required],
-            birthdate: ['',Validators.required],
-            contact: this.fb.group({
-                email : '',
-                phone : '',
-                website : '',
-            }),
+            username: 'not used',
+            birthdate: ['2017-05-31T19:37:55.507Z',Validators.required],
+            email : '',
+            phone : '',
             adress: this.fb.group({
-                street : '',
                 suite : '',
-                country:'',
+                state:'',
                 city   : '',
-                zipcode: ''
+                zip: ''
             }),
-            password: '',
-            enabled: '',
-            lastPasswordResetDate: '',
-            authorities: this.fb.group({
-                    name: 'ROLE_USER'
-            }),
+            password: 'not used',
+            enabled: 'true',
+            lastPasswordResetDate: '2017-05-31T19:37:55.507Z',
+            authorities: [[{name: 'ROLE_USER'}]],
             company : '',
             profession : ''
        });
-
     }
 
-    ngOnInit(){}
-
-    onCustomerCreateSubmit(){
+    ngOnInit() {}
+   
+    onCustomerCreateSubmit() {
         this.createCustomer();
-        this.back();
-        
+        this.back();  
     }
 
+   
     createCustomer() {
-
-        this.dataService.createPosition(this.formGroupCustomerCreate.value)
-            .subscribe((customerCreated) => {
-                    this.postData= JSON.stringify(customerCreated);
-                    console.log(this.postData);
-                },
-                error => {
-
-                    this.notificationService.printErrorMessage('Failed to created Customer'+ error);
-                });
-
+        this.customerService.createCustomer(this.file,this.customerCreate.value)
+             .subscribe(data =>  this.notificationService.printSuccessMessage('le client a été crée avec succes'),
+                 error => this.notificationService.printErrorMessage('Failed to created Customer'+ error)
+              )
     }
 
+  
+    onChange(event) {
+        
+        var files = event.srcElement.files;
+        this.file = event.dataTransfer ? event.dataTransfer.files[0] : event.target.files[0];
+        var pattern = /image-*/;
+        var reader = new FileReader();
+        if (!this.file.type.match(pattern)) {
+            alert('invalid format');
+            return;
+        }
+        reader.onload = this._handleReaderLoaded.bind(this);
+        reader.readAsDataURL(this.file);
+       
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    _handleReaderLoaded(e) {
+        var reader = e.target;
+        this.imageSrc = reader.result;
+    }
 
     back() {
         this.router.navigate(['customers']);

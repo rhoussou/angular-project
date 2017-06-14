@@ -2,11 +2,10 @@ import { Component, OnInit, ViewChild, AfterViewInit,Input, Output,EventEmitter}
 import { trigger,state,style,animate, transition } from '@angular/animations';
 
 import { ICustomer, ISchedule } from '../shared/interfaces';
-import { DataService } from '../shared/services/data.service';
-import { ItemsService } from '../shared/utils/items.service';
+import { CustomerService } from '../shared/services/customer.service';
 import { NotificationService } from '../shared/utils/notification.service';
+import { ItemsService } from '../shared/utils/items.service';
 
-import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'customer-card',
@@ -31,71 +30,24 @@ import { ModalDirective } from 'ngx-bootstrap';
     ]
 })
 export class CustomerCardComponent implements OnInit {
-    @ViewChild('childModal') public childModal: ModalDirective;
     @Input() customer: ICustomer;
-    @Output() removeCustomer = new EventEmitter();
+    @Output() editCustomer = new EventEmitter();
     @Output() customerCreated = new EventEmitter();
 
-    edittedCustomer: ICustomer;
-    onEdit: boolean = false;
-    
-    modal: any;
-    items: string[] = ['item1', 'item2', 'item3'];
-    selected: string;
-    output: string;
-    customerSchedules: ISchedule[];
-    customerSchedulesLoaded: boolean = false;
-    index: number = 0;
-    backdropOptions = [true, false, 'static'];
-    animation: boolean = true;
-    keyboard: boolean = true;
-    backdrop: string | boolean = true;
+    editedcustomer: ICustomer;
 
-    constructor(private itemsService: ItemsService,
-        private notificationService: NotificationService,
-        private dataService: DataService) { }
+    constructor(private notificationService: NotificationService,
+        private customerService: CustomerService,
+        private itemsService:ItemsService) { }
 
     ngOnInit() {
-        
-        this.edittedCustomer = this.itemsService.getSerialized<ICustomer>(this.customer);
-        if (this.customer.id == null)
-            this.editCustomer();
+        this.editedcustomer = this.customer;
     }
 
-    editCustomer() {
-        this.onEdit = !this.onEdit;
-        this.edittedCustomer = this.itemsService.getSerialized<ICustomer>(this.customer);
-    }
+    onEdit() {
 
-    createCustomer() {
-        
+      this.editCustomer.emit({ value: this.customer});
+       
     }
-
-    updateCustomer() {
-        
-    }
-
-    openRemoveModal() {
-        
-    }
-
-    viewSchedules(customer: ICustomer) {
-        console.log(customer);
-        
-        
-    }
-
-    public hideChildModal(): void {
-        this.childModal.hide();
-    }
-
-    opened() {
-        
-        this.output = '(opened)';
-    }
-
-    isCustomerValid(): boolean {
-        return false;
-    }
-
+    
 }

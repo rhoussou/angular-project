@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule }  from '@angular/forms';
+import { ReactiveFormsModule,FormsModule }  from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
@@ -11,25 +10,28 @@ import { DatepickerModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap';
 
 import { routing } from './app.routes';
-import { DataService } from './shared/services/data.service';
+import { CustomerService } from './shared/services/customer.service';
 import { NotificationService } from './shared/utils/notification.service';
-import { ItemsService } from './shared/utils/items.service';
 import { DateFormatPipe } from './shared/pipes/date-format.pipe';
 
 import { AppComponent }  from './app.component';
 import { CustomerListComponent } from './customers/customer-list.component';
 import { CustomerCardComponent } from './customers/customer-card.component';
-import { CustomerCreateComponent } from './customers/customer-create.component';
+import { FileUploadComponent } from './components/file-upload.component';
 import { CustomerEditComponent } from './customers/customer-edit.component';
+import { CustomerCreateComponent } from './customers/customer-create.component';
+import { ItemsService } from './shared/utils/items.service';
+import { FileUploadService } from './shared/services/fileUpload.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomerListComponent,
+    FileUploadComponent,
+    CustomerCardComponent,
     CustomerEditComponent,
     CustomerCreateComponent,
-    CustomerCardComponent,
     DateFormatPipe
   ],
 
@@ -42,13 +44,16 @@ import { CustomerEditComponent } from './customers/customer-edit.component';
     PaginationModule.forRoot(),
     DatepickerModule.forRoot(),
     ReactiveFormsModule,
-    MultiselectDropdownModule,
+    FormsModule,
+    MultiselectDropdownModule
   ],
   providers: [
-    DataService,
+    CustomerService,
     NotificationService,
-    ItemsService
+    ItemsService,
+    FileUploadService
   ],
+  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

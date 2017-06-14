@@ -1,28 +1,33 @@
-<a class="btn btn-primary" type="button" [routerLink]="['/clients/create']">
-   <i class="fa fa-edit" aria-hidden="true"></i> add
+<div [@flyInOut]="'in'">
+
+<a class="btn btn-primary" type="button" [routerLink]="['/customers/create']">
+   <i class="fa fa-edit" aria-hidden="true"></i> Ajouter un Client
 </a>
 
-<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#edit">
-    Launch Normal Form
-</button>
-
-<button [class.hidden]="!addingCustomer" class="btn btn-danger" (click)="cancelAddCustomer()">
-    <i class="fa fa-ban fa-2x" aria-hidden="true"></i>Cancel</button>
 <hr/>
 <div class="row text-center">
     <div class="col-md-3 col-sm-6 hero-feature" *ngFor="let customer of customers">
-        <customer-card [customer]="customer" (removeCustomer)="removeCustomer($event);" (customerCreated)="customerCreated($event);"></customer-card>
+        <customer-card [customer]="customer" (editCustomer)="editCustomer($event);"></customer-card>
     </div>
 </div>
+<div class="row text-center">
+     <div class="col-md-3 col-sm-6">
+        <pagination [boundaryLinks]="true" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" class="pagination-sm"
+        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)"></pagination>
+    </div>   
+</div>
 
-<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="contactLabel" aria-hidden="true">
+
+</div>
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="panel-title" id="contactLabel"><span class="glyphicon glyphicon-info-sign"></span> Any questions? Feel free to contact us.</h4>
-            </div>
-            <customer-edit-form></customer-edit-form>
+        <div>
+
+            <customer-edit-form ></customer-edit-form>
+
         </div>
+        <!-- /.modal-content -->
     </div>
+    <!-- /.modal-dialog -->
 </div>

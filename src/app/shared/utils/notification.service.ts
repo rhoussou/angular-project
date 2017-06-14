@@ -20,6 +20,8 @@ export class NotificationService {
         });
     }
 
+    
+
     /*
     Prints a success message using the alertify.js lib
     */
