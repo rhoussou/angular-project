@@ -6,7 +6,6 @@ import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { PaginationModule } from 'ngx-bootstrap';
-import { DatepickerModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap';
 
 import { routing } from './app.routes';
@@ -21,7 +20,6 @@ import { FileUploadComponent } from './components/file-upload.component';
 import { CustomerEditComponent } from './customers/customer-edit.component';
 import { CustomerCreateComponent } from './customers/customer-create.component';
 import { ItemsService } from './shared/utils/items.service';
-import { FileUploadService } from './shared/services/fileUpload.service';
 
 
 @NgModule({
@@ -42,7 +40,6 @@ import { FileUploadService } from './shared/services/fileUpload.service';
     BrowserAnimationsModule,
     ModalModule.forRoot(),
     PaginationModule.forRoot(),
-    DatepickerModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
     MultiselectDropdownModule
@@ -50,8 +47,7 @@ import { FileUploadService } from './shared/services/fileUpload.service';
   providers: [
     CustomerService,
     NotificationService,
-    ItemsService,
-    FileUploadService
+    ItemsService
   ],
   
   bootstrap: [AppComponent]

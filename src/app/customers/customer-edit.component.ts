@@ -5,6 +5,9 @@ import { FormGroup ,FormBuilder,Validators  } from '@angular/forms';
 import { ICustomer } from '../shared/interfaces';
 import { NotificationService } from '../shared/utils/notification.service';
 
+import { Http, Response, Headers , RequestOptions, URLSearchParams,RequestOptionsArgs} from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+
 import { CustomerService } from '../shared/services/customer.service';
 import { FileUploadService } from '../shared/services/fileUpload.service';
 
@@ -14,16 +17,19 @@ import { FileUploadService } from '../shared/services/fileUpload.service';
 })
 
 export class CustomerEditComponent implements OnInit {
-   
+    baseUrl: string = 'http://127.0.0.1:8080/customers';
     customerEditForm:FormGroup;
     imageSrc: string = '';
     file:File;
+    files:any[];
+    fileList: FileList
     editedCustomerId : string;
     constructor(private fb:FormBuilder,
                 private route: ActivatedRoute,
                 private router: Router,
                 private customerService: CustomerService,
-                private notificationService: NotificationService){
+                private notificationService: NotificationService,
+                private http:Http){
 
 
             this.customerEditForm = this.fb.group({
@@ -63,7 +69,7 @@ export class CustomerEditComponent implements OnInit {
     }
 
     updateCustomer() {
-        this.customerService.updateCustomer(this.file, this.editedCustomerId, this.customerEditForm.value)
+        this.customerService.updateCustomer(this.fileList, this.editedCustomerId, this.customerEditForm.value)
              .subscribe(data =>  this.notificationService.printSuccessMessage('le  client a été modifié avec succes'),
                  error => this.notificationService.printErrorMessage('Failed to created Customer'+ error)
               )
@@ -81,13 +87,34 @@ export class CustomerEditComponent implements OnInit {
         }
         reader.onload = this._handleReaderLoaded.bind(this);
         reader.readAsDataURL(this.file);
-       
+        /*
+        this.fileList= event.target.files;
+        if (this.fileList.length > 0) {
+          let file: File = this.fileList[0];
+          let formData: FormData = new FormData();
+          formData.append('uploadFile', file, file.name);
+          let headers = new Headers();
+          headers.append('Accept', 'application/json');
+          let options = new RequestOptions({ headers: headers });
+          this.http.post(this.baseUrl+"/upload?id=nono", formData, options)
+            .map(res => res.json())
+            .catch(error => Observable.throw(error))
+            .subscribe(
+            data => console.log('success'),
+            error => console.log(error)
+            )
+        }
+        */
     }
 
     _handleReaderLoaded(e) {
         var reader = e.target;
         this.imageSrc = reader.result;
     }
+    private handleError(error: Response) {
+        console.error(error);
+        return Observable.throw(error.json().error || 'Server error');
+     }
 
     back() {
         this.router.navigate(['customers']);

@@ -25,17 +25,27 @@ export class CustomerService {
             .catch(this.handleError);
     }
 
-    createCustomer(file:File, customer:any) {
+    createCustomer(fileList:FileList, customer:any) {
 
         let formData: FormData = new FormData();
         let headers = new Headers();
         headers.append('Accept', 'application/json');
-        let options = new RequestOptions({ headers: headers });
-        if (file!=null) {
-            formData.append('uploadFile', file, file.name);
-            this.http.post(this.baseUrl+'/upload', formData, options)
-                .map(res => res.text() ? res.json() : {})
-                .catch(this.handleError);
+        let options = new RequestOptions({ headers: headers});
+
+        if (fileList.length > 0) {
+          let file: File = fileList[0];
+          let formData: FormData = new FormData();
+          formData.append('uploadFile', file, file.name);
+          let headers = new Headers();
+          headers.append('Accept', 'application/json');
+          let options = new RequestOptions({ headers: headers });
+          this.http.post(this.baseUrl+"/upload?id="+id, formData, options)
+            .map(res => res.json())
+            .catch(this.handleError)
+            .subscribe(
+            data => console.log('success'),
+            error => console.log(error)
+            )
         }
         
         headers.append('Content-Type', 'application/json');
@@ -44,20 +54,29 @@ export class CustomerService {
             .catch(this.handleError); 
      }
 
-     updateCustomer(file:File,id:any, customer:any) {
+     updateCustomer(fileList:FileList, id:any, customer:any) {
 
         let formData: FormData = new FormData();
         let headers = new Headers();
         headers.append('Accept', 'application/json');
-        let options = new RequestOptions({ headers: headers });
-        if (file!=null) {
-            formData.append('uploadFile', file, file.name);
-            this.http.post(this.baseUrl+'/upload', formData, options)
-                .map(res => res.text() ? res.json() : {})
-                .catch(this.handleError);
+        let options = new RequestOptions({ headers: headers});
+
+        if (fileList.length > 0) {
+          let file: File = fileList[0];
+          let formData: FormData = new FormData();
+          formData.append('uploadFile', file, file.name);
+          let headers = new Headers();
+          headers.append('Accept', 'application/json');
+          let options = new RequestOptions({ headers: headers });
+          this.http.post(this.baseUrl+"/upload?id="+id, formData, options)
+            .map(res => res.json())
+            .catch(this.handleError)
+            .subscribe(
+            data => console.log('success'),
+            error => console.log(error)
+            )
         }
-        console.log(customer);
-        
+
         headers.append('Content-Type', 'application/json');
         return this.http.put(this.baseUrl + '/' +id, JSON.stringify(customer),options)
             .map(res => res.text() ? res.json() : {})

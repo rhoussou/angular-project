@@ -35,10 +35,12 @@ import { DateFormatPipe } from '../shared/pipes/date-format.pipe';
 
 })
 export class CustomerCreateComponent implements OnInit {
+     
     
     customerCreate:FormGroup;
     imageSrc: string = '';
     file:File;
+    files:any[];
     constructor(private fb:FormBuilder,
                 private route: ActivatedRoute,
                 private router: Router,
@@ -50,7 +52,7 @@ export class CustomerCreateComponent implements OnInit {
             gender: ['',Validators.required],
             lastname: ['',Validators.required],
             firstname: ['',Validators.required],
-            username: 'not used',
+            username: 'user',
             birthdate: ['2017-05-31T19:37:55.507Z',Validators.required],
             email : '',
             phone : '',
@@ -78,7 +80,7 @@ export class CustomerCreateComponent implements OnInit {
 
    
     createCustomer() {
-        this.customerService.createCustomer(this.file,this.customerCreate.value)
+        this.customerService.createCustomer(this.files,this.customerCreate.value)
              .subscribe(data =>  this.notificationService.printSuccessMessage('le client a été crée avec succes'),
                  error => this.notificationService.printErrorMessage('Failed to created Customer'+ error)
               )
@@ -87,7 +89,7 @@ export class CustomerCreateComponent implements OnInit {
   
     onChange(event) {
         
-        var files = event.srcElement.files;
+        this.files = event.srcElement.files;
         this.file = event.dataTransfer ? event.dataTransfer.files[0] : event.target.files[0];
         var pattern = /image-*/;
         var reader = new FileReader();
