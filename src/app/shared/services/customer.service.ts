@@ -1,16 +1,20 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Response, Headers , RequestOptions, URLSearchParams,RequestOptionsArgs} from '@angular/http';
+import { ConfigService } from '../utils/config.service';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 
+
 @Injectable()
 export class CustomerService {
 
-    baseUrl: string = 'http://127.0.0.1:8080/customers';
-    
-    constructor(private http:Http){}
+    baseUrl: string ;
+   
+    constructor(private http:Http, private configService: ConfigService){
+        this.baseUrl = configService.getApiURI()+'customers';
+    }
 
      getCustomers(page?: number, itemsPerPage?: number) :Observable<any>{
         
@@ -39,7 +43,7 @@ export class CustomerService {
           let headers = new Headers();
           headers.append('Accept', 'application/json');
           let options = new RequestOptions({ headers: headers });
-          this.http.post(this.baseUrl+"/upload?id="+id, formData, options)
+          this.http.post(this.baseUrl+"/upload?id="+customer.username, formData, options)
             .map(res => res.json())
             .catch(this.handleError)
             .subscribe(

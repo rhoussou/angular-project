@@ -1,36 +1,45 @@
+<!--
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h3 class="panel-title pull-left"><i class="fa fa-user" aria-hidden="true"></i>{{editedcustomer.lastname}} {{editedcustomer.firstname}}</h3>
+        <img src="{{apiHost}}images/{{editedcustomer.avatar}}" class="img-avatar pull-left" alt="">
+        <h4 class="panel-title pull-left">{{editedcustomer.lastname}} {{editedcustomer.firstname}}</h4>
         <div class="clearfix"></div>
     </div>
 
-    <div highlight="whitesmoke" class="panel-body">
-        <div class="">
-            <img src="{{apiHost}}images/{{editedcustomer.avatar}}" class="img-avatar" alt="">
-            <div class="caption">
+    <div class="panel-body">
+            <div class="col-sm-8 col-md-8">
+                 <div class= "row">
+                    <div class = "md-col-12">
+                        <i class="glyphicon glyphicon-envelope"></i> {{editedcustomer.adress.suite}}
+                    </div>
+                </div>
+                <div class= "row">
+                    <div class = "md-col-12">
+                         <i class="glyphicon glyphicon-globe"></i>{{editedcustomer.phone}}
+                    </div>
+                </div>
+                 <div class= "row">
+                    <div class = "md-col-12">
+                        <i class="glyphicon glyphicon-envelope"></i>email@example.com
+                    </div>
+                </div>
+                 <div class= "row">
+                    <div class = "md-col-12">
+                        <i class="glyphicon glyphicon-envelope"></i>email@example.com
+                    </div>
+                </div>
                 <p>
-                    <span>Adresse : {{editedcustomer.adress.suite}}</span>
-                </p>
-                 <p>
-                    <span>Tel: {{editedcustomer.phone}}</span>
-                </p>
-                <p>
-                    <span>Email: {{editedcustomer.email}}</span>
-                </p>
-                <p>
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary btn-xs">
                     <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Voir commandes 
                     </button>
                     
                 </p>
                 
-            </div>
+               
         </div>
     </div>
     <div class="panel-footer">
-        <div>
-            
-               
+        <div> 
             <button class="btn btn-default btn-xs" (click)="onEdit()"
             data-toggle="modal" data-target="#edit" >
                 <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -41,3 +50,40 @@
         </div>
     </div>
 </div>
+-->
+    <div class="project project-radius project-warning">
+        <div class="shape">
+            <div class="shape-text">
+                30 ans								
+            </div>
+        </div>
+        <div class="project-content">
+            <img src="{{apiHost}}images/{{editedcustomer.avatar}}" alt="" class="img-rounded img">
+            <h4>
+               {{editedcustomer.lastname}} {{editedcustomer.firstname}}
+            </h4>
+            <!-- Email field !-->
+            <div class="info">{{editedcustomer.adress.suite}}</div>
+            <div class="info">{{editedcustomer.phone}}</div>
+            <div class="info">{{editedcustomer.email}}</div>
+            <div class="clearfix"></div>
+            <p>
+                <button class="btn btn-primary btn-xs">
+                    <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Voir commandes 
+                </button>
+            </p>
+        </div>
+
+        <div class="panel-footer">
+            <div> 
+                <button class="btn btn-default btn-xs" (click)="onEdit()"
+                    data-toggle="modal" data-target="#edit" >
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                    Editer
+                </button>
+                <button class="btn btn-danger btn-xs">
+                    <i class="fa fa-times" aria-hidden="true"></i>Supprimer
+                </button>
+            </div>
+        </div>
+    </div>

@@ -9,7 +9,7 @@ import { Http, Response, Headers , RequestOptions, URLSearchParams,RequestOption
 import { Observable } from 'rxjs/Rx';
 
 import { CustomerService } from '../shared/services/customer.service';
-import { FileUploadService } from '../shared/services/fileUpload.service';
+
 
 @Component({
     selector: 'customer-edit-form',
@@ -17,7 +17,6 @@ import { FileUploadService } from '../shared/services/fileUpload.service';
 })
 
 export class CustomerEditComponent implements OnInit {
-    baseUrl: string = 'http://127.0.0.1:8080/customers';
     customerEditForm:FormGroup;
     imageSrc: string = '';
     file:File;
@@ -77,8 +76,8 @@ export class CustomerEditComponent implements OnInit {
 
     onChange(event) {
         
-        var files = event.srcElement.files;
-        this.file = event.dataTransfer ? event.dataTransfer.files[0] : event.target.files[0];
+        this.fileList= event.target.files;
+        this.file =this.fileList[0];
         var pattern = /image-*/;
         var reader = new FileReader();
         if (!this.file.type.match(pattern)) {

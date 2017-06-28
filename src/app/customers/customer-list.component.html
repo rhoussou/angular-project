@@ -5,13 +5,15 @@
 </a>
 
 <hr/>
-<div class="row text-center">
-    <div class="col-md-3 col-sm-6 hero-feature" *ngFor="let customer of customers">
+
+
+<div class="container row">
+    <div class="col-xs-3" *ngFor="let customer of customers">
         <customer-card [customer]="customer" (editCustomer)="editCustomer($event);"></customer-card>
     </div>
 </div>
 <div class="row text-center">
-     <div class="col-md-3 col-sm-6">
+     <div class="col-md-12 col-sm-12">
         <pagination [boundaryLinks]="true" [totalItems]="totalItems" [itemsPerPage]="itemsPerPage" [(ngModel)]="currentPage" class="pagination-sm"
         previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)"></pagination>
     </div>   

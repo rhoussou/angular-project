@@ -4,12 +4,13 @@ import { trigger,state,style,animate, transition } from '@angular/animations';
 import { ICustomer, ISchedule } from '../shared/interfaces';
 import { CustomerService } from '../shared/services/customer.service';
 import { NotificationService } from '../shared/utils/notification.service';
-import { ItemsService } from '../shared/utils/items.service';
+
 
 
 @Component({
     selector: 'customer-card',
     templateUrl: 'customer-card.component.html',
+    styleUrls: ['customer-card.component.css'],
     animations: [
         trigger('flyInOut', [
             state('in', style({ opacity: 1, transform: 'translateX(0)' })),
@@ -37,8 +38,7 @@ export class CustomerCardComponent implements OnInit {
     editedcustomer: ICustomer;
 
     constructor(private notificationService: NotificationService,
-        private customerService: CustomerService,
-        private itemsService:ItemsService) { }
+        private customerService: CustomerService) { }
 
     ngOnInit() {
         this.editedcustomer = this.customer;

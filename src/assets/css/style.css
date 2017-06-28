@@ -11,7 +11,9 @@ body {
    width: 80%;
 }
 .panel-heading {
-     background: #FFA500;
+     background-color: #FFFFFF;
+     padding: 0;
+     margin: 0;
 
 }
 .title{
@@ -36,16 +38,20 @@ footer {
 }
 
 .img-avatar {
-    height: 80px;
-    width: 80px;
+    height: 50px;
+    width: 50px;
 }
 
 .img-small {
     height: 50px;
     width: 50px;
 }
+.input-file {
+    height: 150px;
+    width: 150px;
+}
 
-.panel-heading h3 {
+.panel-heading h4 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

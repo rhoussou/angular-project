@@ -40,7 +40,7 @@ export class CustomerCreateComponent implements OnInit {
     customerCreate:FormGroup;
     imageSrc: string = '';
     file:File;
-    files:any[];
+    fileList:FileList;
     constructor(private fb:FormBuilder,
                 private route: ActivatedRoute,
                 private router: Router,
@@ -80,7 +80,7 @@ export class CustomerCreateComponent implements OnInit {
 
    
     createCustomer() {
-        this.customerService.createCustomer(this.files,this.customerCreate.value)
+        this.customerService.createCustomer(this.fileList,this.customerCreate.value)
              .subscribe(data =>  this.notificationService.printSuccessMessage('le client a été crée avec succes'),
                  error => this.notificationService.printErrorMessage('Failed to created Customer'+ error)
               )
@@ -89,16 +89,16 @@ export class CustomerCreateComponent implements OnInit {
   
     onChange(event) {
         
-        this.files = event.srcElement.files;
-        this.file = event.dataTransfer ? event.dataTransfer.files[0] : event.target.files[0];
-        var pattern = /image-*/;
-        var reader = new FileReader();
-        if (!this.file.type.match(pattern)) {
-            alert('invalid format');
-            return;
-        }
-        reader.onload = this._handleReaderLoaded.bind(this);
-        reader.readAsDataURL(this.file);
+       this.fileList= event.target.files;
+       this.file =this.fileList[0];
+       var pattern = /image-*/;
+       var reader = new FileReader();
+       if (!this.file.type.match(pattern)) {
+          alert('invalid format');
+          return;
+       }
+       reader.onload = this._handleReaderLoaded.bind(this);
+       reader.readAsDataURL(this.file);
        
     }
 

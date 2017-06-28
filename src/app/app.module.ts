@@ -12,6 +12,7 @@ import { routing } from './app.routes';
 import { CustomerService } from './shared/services/customer.service';
 import { NotificationService } from './shared/utils/notification.service';
 import { DateFormatPipe } from './shared/pipes/date-format.pipe';
+import { ConfigService } from './shared/utils/config.service';
 
 import { AppComponent }  from './app.component';
 import { CustomerListComponent } from './customers/customer-list.component';
@@ -19,7 +20,6 @@ import { CustomerCardComponent } from './customers/customer-card.component';
 import { FileUploadComponent } from './components/file-upload.component';
 import { CustomerEditComponent } from './customers/customer-edit.component';
 import { CustomerCreateComponent } from './customers/customer-create.component';
-import { ItemsService } from './shared/utils/items.service';
 
 
 @NgModule({
@@ -47,7 +47,8 @@ import { ItemsService } from './shared/utils/items.service';
   providers: [
     CustomerService,
     NotificationService,
-    ItemsService
+    
+    ConfigService
   ],
   
   bootstrap: [AppComponent]
