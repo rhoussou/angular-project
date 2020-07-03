@@ -1,6 +1,6 @@
 # Project in progress
 
-This project crud application is built with angularjs 4
+This project crud application is built with angular 4
 
 it uses Rest Api provided by this application [SpringBoot Project](https://github.com/rhoussou/springBoot-project.git) .
 
